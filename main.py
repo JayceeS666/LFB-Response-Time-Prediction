@@ -4,6 +4,27 @@
 # Model: Multiple Linear Regression
 # ==========================================
 
+# ---------------------------------------------------------
+# AUTO-DEPENDENCY INSTALLER (The "Bulletproof" Execution Setup)
+# Ensures the script runs perfectly even on a clean virtual environment
+# ---------------------------------------------------------
+import subprocess
+import sys
+
+def ensure_libraries():
+    required_libs = {'pandas': 'pandas', 'sklearn': 'scikit-learn'}
+    for import_name, install_name in required_libs.items():
+        try:
+            __import__(import_name)
+        except ImportError:
+            print(f"Wait a moment... Auto-installing missing library: {install_name}")
+            subprocess.check_call([sys.executable, "-m", "pip", "install", install_name])
+            print(f"Successfully installed {install_name}!")
+
+# Run the checker before importing anything else
+ensure_libraries()
+# ---------------------------------------------------------
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -12,12 +33,8 @@ import io
 
 def main():
     print("Step 1: Loading Data...")
-    # ---------------------------------------------------------
     # SUPER-SAFE DATA LOADING METHOD:
-    # To ensure 100% single-execution compatibility in any IDE (like PyCharm) 
-    # without path errors or missing external CSV files, a 100-row representative 
-    # sample of the real London Datastore records is embedded directly into the code below.
-    # ---------------------------------------------------------
+    # 100-row representative sample embedded to ensure no path errors.
     csv_data = """HourOfCall,Easting_m,Northing_m,AttendanceTimeSeconds
 14,530045,180023,320
 2,525012,179045,280
@@ -121,7 +138,6 @@ def main():
 23,531099,181022,285
 11,530088,179011,310"""
     
-    # Read the embedded string exactly as if it were an external CSV file
     df = pd.read_csv(io.StringIO(csv_data))
     print("Data loaded successfully from embedded memory!")
 
